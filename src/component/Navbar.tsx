@@ -19,6 +19,7 @@ const useAuth = () => {
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
+  { label: "Hire Technician", href: "/technicians" },
   { label: "Platform Details", href: "/platform-details" },
   { label: "About Us", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -214,6 +215,25 @@ export default function Navbar() {
                         <rect width="7" height="5" x="3" y="16" rx="1" />
                       </svg>
                       Dashboard
+                    </Link>
+                    <Link
+                      href="/technicians"
+                      className="nav__dropdown-item"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                      </svg>
+                      Hire Technician
                     </Link>
                     <Link
                       href="/profile/settings"
