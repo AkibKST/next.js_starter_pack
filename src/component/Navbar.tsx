@@ -19,7 +19,7 @@ const useAuth = () => {
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
-  { label: "Platform Details", href: "/technicians" },
+  { label: "Platform Details", href: "/platform-details" },
   { label: "About Us", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -91,8 +91,9 @@ export default function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`nav__link ${pathname === link.href ? "nav__link--active" : ""
-                    }`}
+                  className={`nav__link ${
+                    pathname === link.href ? "nav__link--active" : ""
+                  }`}
                 >
                   {link.label}
                   <span className="nav__link-bar" />
@@ -123,8 +124,9 @@ export default function Navbar() {
                   </div>
                   <span className="nav__user-name">{user.name}</span>
                   <svg
-                    className={`nav__chevron ${dropdownOpen ? "nav__chevron--open" : ""
-                      }`}
+                    className={`nav__chevron ${
+                      dropdownOpen ? "nav__chevron--open" : ""
+                    }`}
                     width="16"
                     height="16"
                     viewBox="0 0 24 24"
@@ -152,19 +154,84 @@ export default function Navbar() {
                     </div>
                     <div className="nav__dropdown-divider" />
                     <Link href="/profile" className="nav__dropdown-item">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                      </svg>
                       My Profile
                     </Link>
                     <Link href="/bookings" className="nav__dropdown-item">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2" /><line x1="16" x2="16" y1="2" y2="6" /><line x1="8" x2="8" y1="2" y2="6" /><line x1="3" x2="21" y1="10" y2="10" /></svg>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect
+                          width="18"
+                          height="18"
+                          x="3"
+                          y="4"
+                          rx="2"
+                          ry="2"
+                        />
+                        <line x1="16" x2="16" y1="2" y2="6" />
+                        <line x1="8" x2="8" y1="2" y2="6" />
+                        <line x1="3" x2="21" y1="10" y2="10" />
+                      </svg>
                       My Bookings
                     </Link>
-                    <Link href="/dashboard/customer" className="nav__dropdown-item">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="9" x="3" y="3" rx="1" /><rect width="7" height="5" x="14" y="3" rx="1" /><rect width="7" height="9" x="14" y="12" rx="1" /><rect width="7" height="5" x="3" y="16" rx="1" /></svg>
+                    <Link
+                      href="/dashboard/customer"
+                      className="nav__dropdown-item"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect width="7" height="9" x="3" y="3" rx="1" />
+                        <rect width="7" height="5" x="14" y="3" rx="1" />
+                        <rect width="7" height="9" x="14" y="12" rx="1" />
+                        <rect width="7" height="5" x="3" y="16" rx="1" />
+                      </svg>
                       Dashboard
                     </Link>
-                    <Link href="/profile/settings" className="nav__dropdown-item">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></svg>
+                    <Link
+                      href="/profile/settings"
+                      className="nav__dropdown-item"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
                       Settings
                     </Link>
                     <div className="nav__dropdown-divider" />
@@ -172,7 +239,20 @@ export default function Navbar() {
                       className="nav__dropdown-item nav__dropdown-item--danger"
                       onClick={handleLogout}
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></svg>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" x2="9" y1="12" y2="12" />
+                      </svg>
                       Sign out
                     </button>
                   </div>
@@ -210,8 +290,9 @@ export default function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`nav__mobile-link ${pathname === link.href ? "nav__mobile-link--active" : ""
-                    }`}
+                  className={`nav__mobile-link ${
+                    pathname === link.href ? "nav__mobile-link--active" : ""
+                  }`}
                 >
                   {link.label}
                 </Link>
@@ -227,19 +308,31 @@ export default function Navbar() {
                 </div>
                 <span>{user.name}</span>
               </div>
-              <Link href="/profile" className="nav__mobile-link">My Profile</Link>
-              <Link href="/bookings" className="nav__mobile-link">My Bookings</Link>
-              <Link href="/dashboard/customer" className="nav__mobile-link">Dashboard</Link>
+              <Link href="/profile" className="nav__mobile-link">
+                My Profile
+              </Link>
+              <Link href="/bookings" className="nav__mobile-link">
+                My Bookings
+              </Link>
+              <Link href="/dashboard/customer" className="nav__mobile-link">
+                Dashboard
+              </Link>
               <button className="nav__mobile-logout" onClick={handleLogout}>
                 Sign out
               </button>
             </div>
           ) : (
             <div className="nav__mobile-auth">
-              <Link href="/login" className="nav__btn nav__btn--ghost nav__btn--full">
+              <Link
+                href="/login"
+                className="nav__btn nav__btn--ghost nav__btn--full"
+              >
                 Log in
               </Link>
-              <Link href="/register" className="nav__btn nav__btn--primary nav__btn--full">
+              <Link
+                href="/register"
+                className="nav__btn nav__btn--primary nav__btn--full"
+              >
                 Sign up
               </Link>
             </div>
