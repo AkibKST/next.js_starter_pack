@@ -216,10 +216,7 @@ export default function Navbar() {
                       </svg>
                       Dashboard
                     </Link>
-                    <Link
-                      href="/technicians"
-                      className="nav__dropdown-item"
-                    >
+                    <Link href="/technicians" className="nav__dropdown-item">
                       <svg
                         width="16"
                         height="16"
