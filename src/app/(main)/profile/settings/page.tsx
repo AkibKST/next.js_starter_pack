@@ -1,9 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import TopicPreferences from "@/src/components/bookings/TopicPreferences";
-import { usePreferences } from "@/src/hooks/usePreferences";
-import { ServiceTopic } from "@/src/types";
+import { useForm } from "react-hook-form";
+import TopicPreferences from "@/components/bookings/TopicPreferences";
+import { usePreferences } from "@/hooks/usePreferences";
+import { ServiceTopic } from "@/types";
+
+interface ProfileFormData {
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+}
 
 export default function ProfileSettingsPage() {
   const [activeTab, setActiveTab] = useState<
@@ -15,31 +23,34 @@ export default function ProfileSettingsPage() {
   const { preferences, toggleTopic, updateNotifications, savePreferences } =
     usePreferences();
 
-  // Mock user data
-  const [formData, setFormData] = useState({
-    name: "John Doe",
-    email: "john@example.com",
-    phone: "+1 (555) 123-4567",
-    location: "San Francisco, CA",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<ProfileFormData>({
+    defaultValues: {
+      name: "John Doe",
+      email: "john@example.com",
+      phone: "+1 (555) 123-4567",
+      location: "San Francisco, CA",
+    },
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSaveProfile = async () => {
+  const onSubmitProfile = async (data: ProfileFormData) => {
     setIsSaving(true);
     setSaveMessage("");
     // Simulate API call
-    setTimeout(() => {
-      setSaveMessage("Profile updated successfully!");
+    try {
+      setTimeout(() => {
+        setSaveMessage("Profile updated successfully!");
+        setIsSaving(false);
+        setTimeout(() => setSaveMessage(""), 3000);
+      }, 1000);
+    } catch (err) {
+      setSaveMessage("Failed to save profile");
       setIsSaving(false);
-      setTimeout(() => setSaveMessage(""), 3000);
-    }, 1000);
+    }
   };
 
   const handleSavePreferences = async () => {
@@ -144,66 +155,98 @@ export default function ProfileSettingsPage() {
         {activeTab === "account" && (
           <div className="settings-section">
             <h2 className="settings-section__title">Personal Information</h2>
-            <div className="settings-form">
+            <form
+              onSubmit={handleSubmit(onSubmitProfile)}
+              className="settings-form"
+            >
               <div className="form-group">
                 <label className="form-label">Full Name</label>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
                   className="form-input"
                   placeholder="Your full name"
+                  {...register("name", {
+                    required: "Name is required",
+                    minLength: {
+                      value: 3,
+                      message: "Name must be at least 3 characters",
+                    },
+                  })}
                 />
+                {errors.name && (
+                  <span className="form-error">{errors.name.message}</span>
+                )}
               </div>
 
               <div className="form-group">
                 <label className="form-label">Email Address</label>
                 <input
                   type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
                   className="form-input"
                   placeholder="your.email@example.com"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
                 />
+                {errors.email && (
+                  <span className="form-error">{errors.email.message}</span>
+                )}
               </div>
 
               <div className="form-group">
                 <label className="form-label">Phone Number</label>
                 <input
                   type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
                   className="form-input"
                   placeholder="+1 (555) 000-0000"
+                  {...register("phone", {
+                    pattern: {
+                      value:
+                        /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/,
+                      message: "Invalid phone number",
+                    },
+                  })}
                 />
+                {errors.phone && (
+                  <span className="form-error">{errors.phone.message}</span>
+                )}
               </div>
 
               <div className="form-group">
                 <label className="form-label">Location</label>
                 <input
                   type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleInputChange}
                   className="form-input"
                   placeholder="City, State"
+                  {...register("location", {
+                    minLength: {
+                      value: 3,
+                      message: "Location must be at least 3 characters",
+                    },
+                  })}
                 />
+                {errors.location && (
+                  <span className="form-error">{errors.location.message}</span>
+                )}
               </div>
 
               <div className="settings-actions">
                 <button
-                  onClick={handleSaveProfile}
+                  type="submit"
                   disabled={isSaving}
                   className="btn btn--primary"
                 >
                   {isSaving ? "Saving..." : "Save Changes"}
                 </button>
-                <button className="btn btn--secondary">Cancel</button>
+                <button type="button" className="btn btn--secondary">
+                  Cancel
+                </button>
               </div>
-            </div>
+            </form>
           </div>
         )}
 

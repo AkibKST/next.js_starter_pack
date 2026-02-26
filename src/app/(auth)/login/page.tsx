@@ -1,22 +1,43 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { useLoginMutation } from "@/store/api/authApi";
+
+export const dynamic = "force-dynamic";
+
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 export default function LoginPage() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [login, { isLoading }] = useLoginMutation();
+  const [error, setError] = useState<string>("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // TODO: call login API
-    setTimeout(() => setIsLoading(false), 2000);
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      setError("");
+      const result = await login(data).unwrap();
+      // Handle successful login - redirect or store token
+      console.log("Login successful:", result);
+    } catch (err: any) {
+      setError(err.data?.message || "Login failed. Please try again.");
+    }
   };
 
   return (
@@ -24,9 +45,7 @@ export default function LoginPage() {
       {/* Header */}
       <div className="auth-header">
         <h1 className="auth-title">Welcome back</h1>
-        <p className="auth-subtitle">
-          Sign in to your account to continue
-        </p>
+        <p className="auth-subtitle">Sign in to your account to continue</p>
       </div>
 
       {/* Social login */}
@@ -66,7 +85,25 @@ export default function LoginPage() {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="auth-form">
+      <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
+        {error && (
+          <div className="auth-error-message">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" x2="12" y1="8" y2="12" />
+              <line x1="12" x2="12.01" y1="16" y2="16" />
+            </svg>
+            {error}
+          </div>
+        )}
+
         {/* Email */}
         <div className="auth-field">
           <label htmlFor="email" className="auth-label">
@@ -89,15 +126,21 @@ export default function LoginPage() {
             </svg>
             <input
               id="email"
-              name="email"
               type="email"
               placeholder="you@example.com"
-              value={formData.email}
-              onChange={handleChange}
               className="auth-input"
-              required
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
             />
           </div>
+          {errors.email && (
+            <span className="auth-error-text">{errors.email.message}</span>
+          )}
         </div>
 
         {/* Password */}
@@ -127,13 +170,16 @@ export default function LoginPage() {
             </svg>
             <input
               id="password"
-              name="password"
               type={showPassword ? "text" : "password"}
               placeholder="••••••••"
-              value={formData.password}
-              onChange={handleChange}
               className="auth-input"
-              required
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
             />
             <button
               type="button"
@@ -173,6 +219,9 @@ export default function LoginPage() {
               )}
             </button>
           </div>
+          {errors.password && (
+            <span className="auth-error-text">{errors.password.message}</span>
+          )}
         </div>
 
         {/* Remember me */}
@@ -184,16 +233,8 @@ export default function LoginPage() {
         </div>
 
         {/* Submit */}
-        <button
-          type="submit"
-          className="auth-submit-btn"
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <span className="auth-spinner" />
-          ) : (
-            "Sign in"
-          )}
+        <button type="submit" className="auth-submit-btn" disabled={isLoading}>
+          {isLoading ? <span className="auth-spinner" /> : "Sign in"}
         </button>
       </form>
 

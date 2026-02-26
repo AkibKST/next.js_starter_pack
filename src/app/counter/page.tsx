@@ -1,4 +1,4 @@
-import Counter from "@/src/component/Counter";
+import Counter from "@/component/Counter";
 
 const CounterPage = () => {
   console.log("Hello from server page");

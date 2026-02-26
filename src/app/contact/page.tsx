@@ -1,37 +1,41 @@
 "use client";
 
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import Link from "next/link";
 
+interface ContactFormData {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+}
+
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
+  const [submitted, setSubmitted] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ContactFormData>({
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: "",
+    },
   });
 
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async (data: ContactFormData) => {
     // Simulate form submission
-    console.log("Form submitted:", formData);
+    console.log("Form submitted:", data);
     setSubmitted(true);
+    reset();
     // Reset form after 2 seconds
     setTimeout(() => {
-      setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
       setSubmitted(false);
     }, 2000);
   };
@@ -281,7 +285,11 @@ export default function ContactPage() {
           max-width: 1200px;
           margin: 6rem auto;
           padding: 4rem;
-          background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+          background: linear-gradient(
+            135deg,
+            rgba(99, 102, 241, 0.15),
+            rgba(139, 92, 246, 0.15)
+          );
           border: 1px solid rgba(99, 102, 241, 0.3);
           border-radius: 16px;
           text-align: center;
@@ -423,7 +431,9 @@ export default function ContactPage() {
       <section className="contact-hero">
         <div className="hero-content">
           <h1>Get in Touch</h1>
-          <p>Have questions? We&apos;d love to hear from you. Send us a message!</p>
+          <p>
+            Have questions? We&apos;d love to hear from you. Send us a message!
+          </p>
         </div>
       </section>
 
@@ -439,7 +449,10 @@ export default function ContactPage() {
               <a href="mailto:akibkst22@gmail.com" className="info-link">
                 <p className="info-content">akibkst22@gmail.com</p>
               </a>
-              <p className="info-content" style={{ fontSize: "0.9rem", marginTop: "0.5rem" }}>
+              <p
+                className="info-content"
+                style={{ fontSize: "0.9rem", marginTop: "0.5rem" }}
+              >
                 We&apos;ll respond within 24 hours
               </p>
             </div>
@@ -451,7 +464,10 @@ export default function ContactPage() {
               <a href="tel:+8801500000025" className="info-link">
                 <p className="info-content">015 *** *** 25</p>
               </a>
-              <p className="info-content" style={{ fontSize: "0.9rem", marginTop: "0.5rem" }}>
+              <p
+                className="info-content"
+                style={{ fontSize: "0.9rem", marginTop: "0.5rem" }}
+              >
                 Available Monday to Saturday, 9 AM - 6 PM
               </p>
             </div>
@@ -461,7 +477,10 @@ export default function ContactPage() {
               <div className="info-icon">📍</div>
               <h3>Address</h3>
               <p className="info-content">Kushtia, Bangladesh</p>
-              <p className="info-content" style={{ fontSize: "0.9rem", marginTop: "0.5rem" }}>
+              <p
+                className="info-content"
+                style={{ fontSize: "0.9rem", marginTop: "0.5rem" }}
+              >
                 Visit our office or schedule an appointment
               </p>
             </div>
@@ -469,7 +488,13 @@ export default function ContactPage() {
 
           {/* Contact Form */}
           <div className="contact-form-section">
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.5rem", color: "#fff" }}>
+            <h2
+              style={{
+                fontSize: "1.5rem",
+                marginBottom: "1.5rem",
+                color: "#fff",
+              }}
+            >
               Send us a Message
             </h2>
 
@@ -479,53 +504,71 @@ export default function ContactPage() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-group">
                 <label className="form-label">Full Name *</label>
                 <input
                   type="text"
-                  name="name"
                   className="form-input"
                   placeholder="Your name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
+                  {...register("name", {
+                    required: "Full name is required",
+                    minLength: {
+                      value: 3,
+                      message: "Name must be at least 3 characters",
+                    },
+                  })}
                 />
+                {errors.name && (
+                  <span className="form-error">{errors.name.message}</span>
+                )}
               </div>
 
               <div className="form-group">
                 <label className="form-label">Email Address *</label>
                 <input
                   type="email"
-                  name="email"
                   className="form-input"
                   placeholder="your@email.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
                 />
+                {errors.email && (
+                  <span className="form-error">{errors.email.message}</span>
+                )}
               </div>
 
               <div className="form-group">
                 <label className="form-label">Phone Number</label>
                 <input
                   type="tel"
-                  name="phone"
                   className="form-input"
                   placeholder="+880 1700 000000"
-                  value={formData.phone}
-                  onChange={handleChange}
+                  {...register("phone", {
+                    pattern: {
+                      value:
+                        /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/,
+                      message: "Invalid phone number",
+                    },
+                  })}
                 />
+                {errors.phone && (
+                  <span className="form-error">{errors.phone.message}</span>
+                )}
               </div>
 
               <div className="form-group">
                 <label className="form-label">Subject *</label>
                 <select
-                  name="subject"
                   className="form-select"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
+                  {...register("subject", {
+                    required: "Subject is required",
+                  })}
                 >
                   <option value="">Select a subject</option>
                   <option value="General Inquiry">General Inquiry</option>
@@ -534,18 +577,27 @@ export default function ContactPage() {
                   <option value="Partnership">Partnership</option>
                   <option value="Other">Other</option>
                 </select>
+                {errors.subject && (
+                  <span className="form-error">{errors.subject.message}</span>
+                )}
               </div>
 
               <div className="form-group">
                 <label className="form-label">Message *</label>
                 <textarea
-                  name="message"
                   className="form-textarea"
                   placeholder="Tell us more about your inquiry..."
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
+                  {...register("message", {
+                    required: "Message is required",
+                    minLength: {
+                      value: 10,
+                      message: "Message must be at least 10 characters",
+                    },
+                  })}
                 />
+                {errors.message && (
+                  <span className="form-error">{errors.message.message}</span>
+                )}
               </div>
 
               <button type="submit" className="form-btn">

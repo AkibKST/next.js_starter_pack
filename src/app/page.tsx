@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePreferences, AVAILABLE_TOPICS } from "@/src/hooks/usePreferences";
+import { usePreferences, AVAILABLE_TOPICS } from "@/hooks/usePreferences";
 
 /* ─────────────────────────────────────────────
    DATA
