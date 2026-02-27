@@ -35,15 +35,15 @@ export const TopicPreferences: React.FC<TopicPreferencesProps> = ({
   );
 
   return (
-    <div className="topic-preferences">
-      <div className="topic-preferences__header">
-        <h3 className="topic-preferences__title">{title}</h3>
-        <p className="topic-preferences__subtitle">{subtitle}</p>
+    <div className="p-8 bg-linear-to-br from-slate-100 to-slate-300 rounded-lg my-8">
+      <div className="mb-8">
+        <h3 className="text-2xl font-semibold text-slate-900 mb-2">{title}</h3>
+        <p className="text-base text-slate-700 mb-2">{subtitle}</p>
         {maxSelections && (
-          <p className="topic-preferences__counter">
+          <p className="text-sm text-slate-800 font-medium mt-2">
             {selectedTopics.length} of {maxSelections} selected
             {remainingSelections > 0 && (
-              <span className="topic-preferences__remaining">
+              <span className="text-slate-600 text-xs ml-1">
                 ({remainingSelections} remaining)
               </span>
             )}
@@ -51,12 +51,19 @@ export const TopicPreferences: React.FC<TopicPreferencesProps> = ({
         )}
       </div>
 
-      <div className="topic-preferences__categories">
+      <div className="flex flex-col gap-8">
         {categories.map((category: string) => (
-          <div key={category} className="topic-preferences__category">
-            <h4 className="topic-preferences__category-title">{category}</h4>
+          <div key={category} className="bg-white p-6 rounded-lg shadow-sm">
+            <h4 className="text-lg font-semibold text-slate-900 mb-4 pb-3 border-b-2 border-slate-200">
+              {category}
+            </h4>
 
-            <div className="topic-preferences__grid">
+            <div
+              className="grid grid-cols-auto-fill gap-4"
+              style={{
+                gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
+              }}
+            >
               {AVAILABLE_TOPICS.filter(
                 (t: (typeof AVAILABLE_TOPICS)[0]) => t.category === category,
               ).map((topic: (typeof AVAILABLE_TOPICS)[0]) => {
@@ -75,19 +82,25 @@ export const TopicPreferences: React.FC<TopicPreferencesProps> = ({
                     disabled={isDisabled}
                     onMouseEnter={() => setHoveredTopic(topic.name)}
                     onMouseLeave={() => setHoveredTopic(null)}
-                    className={`topic-card ${
-                      isSelected ? "topic-card--selected" : ""
-                    } ${isDisabled ? "topic-card--disabled" : ""}`}
+                    className={`relative p-4 border-2 rounded-lg text-center flex flex-col items-center justify-center gap-2 min-h-[140px] transition-all duration-300 ${
+                      isSelected
+                        ? "border-green-600 bg-green-50 shadow-md"
+                        : isDisabled
+                          ? "opacity-50 cursor-not-allowed bg-slate-100 border-slate-200"
+                          : "border-slate-200 bg-white cursor-pointer hover:border-blue-500 hover:bg-blue-50 hover:shadow-md hover:-translate-y-0.5"
+                    }`}
                   >
-                    <div className="topic-card__icon">{topic.icon}</div>
-                    <h5 className="topic-card__name">{topic.name}</h5>
+                    <div className="text-3xl leading-none">{topic.icon}</div>
+                    <h5 className="text-sm font-semibold text-slate-900">
+                      {topic.name}
+                    </h5>
                     {hoveredTopic === topic.name && !isDisabled && (
-                      <p className="topic-card__description">
+                      <p className="text-xs text-slate-600 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-11/12 opacity-100 transition-opacity duration-200 leading-snug">
                         {topic.description}
                       </p>
                     )}
                     {isSelected && (
-                      <div className="topic-card__checkmark">
+                      <div className="absolute top-1 right-1 w-6 h-6 bg-green-600 rounded-full flex items-center justify-center text-white animate-in scale-in-95 duration-200">
                         <svg
                           width="20"
                           height="20"
@@ -109,192 +122,6 @@ export const TopicPreferences: React.FC<TopicPreferencesProps> = ({
           </div>
         ))}
       </div>
-
-      <style jsx>{`
-        .topic-preferences {
-          padding: 2rem;
-          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-          border-radius: 12px;
-          margin: 2rem 0;
-        }
-
-        .topic-preferences__header {
-          margin-bottom: 2rem;
-        }
-
-        .topic-preferences__title {
-          font-size: 1.5rem;
-          font-weight: 600;
-          color: #1a202c;
-          margin-bottom: 0.5rem;
-        }
-
-        .topic-preferences__subtitle {
-          font-size: 0.95rem;
-          color: #4a5568;
-          margin-bottom: 0.5rem;
-        }
-
-        .topic-preferences__counter {
-          font-size: 0.875rem;
-          color: #2d3748;
-          font-weight: 500;
-          margin-top: 0.5rem;
-        }
-
-        .topic-preferences__remaining {
-          color: #718096;
-          font-size: 0.8rem;
-          margin-left: 0.25rem;
-        }
-
-        .topic-preferences__categories {
-          display: flex;
-          flex-direction: column;
-          gap: 2rem;
-        }
-
-        .topic-preferences__category {
-          background: white;
-          padding: 1.5rem;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .topic-preferences__category-title {
-          font-size: 1.1rem;
-          font-weight: 600;
-          color: #2d3748;
-          margin-bottom: 1rem;
-          padding-bottom: 0.75rem;
-          border-bottom: 2px solid #e2e8f0;
-        }
-
-        .topic-preferences__grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-          gap: 1rem;
-        }
-
-        .topic-card {
-          position: relative;
-          padding: 1rem;
-          border: 2px solid #e2e8f0;
-          border-radius: 8px;
-          background: white;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          text-align: center;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.5rem;
-          min-height: 140px;
-          justify-content: center;
-        }
-
-        .topic-card:hover:not(.topic-card--disabled) {
-          border-color: #4299e1;
-          background: #ebf8ff;
-          box-shadow: 0 4px 12px rgba(66, 153, 225, 0.1);
-          transform: translateY(-2px);
-        }
-
-        .topic-card--selected {
-          border-color: #22863a;
-          background: #f0fdf4;
-          box-shadow: 0 0 0 3px rgba(34, 134, 58, 0.1);
-        }
-
-        .topic-card--disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-          background: #f7fafc;
-        }
-
-        .topic-card__icon {
-          font-size: 2rem;
-          line-height: 1;
-        }
-
-        .topic-card__name {
-          font-size: 0.95rem;
-          font-weight: 600;
-          color: #2d3748;
-          margin: 0;
-        }
-
-        .topic-card__description {
-          font-size: 0.75rem;
-          color: #718096;
-          margin: 0;
-          line-height: 1.3;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 95%;
-          opacity: 0;
-          transition: opacity 0.2s ease;
-        }
-
-        .topic-card:hover .topic-card__description {
-          opacity: 1;
-        }
-
-        .topic-card--selected .topic-card__description {
-          display: none;
-        }
-
-        .topic-card__checkmark {
-          position: absolute;
-          top: 0.5rem;
-          right: 0.5rem;
-          width: 24px;
-          height: 24px;
-          background: #22863a;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          animation: scaleIn 0.2s ease;
-        }
-
-        @keyframes scaleIn {
-          from {
-            transform: scale(0.8);
-          }
-          to {
-            transform: scale(1);
-          }
-        }
-
-        @media (max-width: 768px) {
-          .topic-preferences {
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-          }
-
-          .topic-preferences__grid {
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 0.75rem;
-          }
-
-          .topic-card {
-            min-height: 120px;
-            padding: 0.75rem;
-          }
-
-          .topic-card__icon {
-            font-size: 1.5rem;
-          }
-
-          .topic-card__name {
-            font-size: 0.85rem;
-          }
-        }
-      `}</style>
     </div>
   );
 };

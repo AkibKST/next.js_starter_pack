@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -67,21 +68,25 @@ export default function ProfileSettingsPage() {
   };
 
   return (
-    <div className="profile-settings">
-      <div className="profile-settings__container">
+    <div className="min-h-screen bg-linear-to-br from-slate-100 to-slate-300 p-8">
+      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="profile-settings__header">
-          <h1 className="profile-settings__title">Account Settings</h1>
-          <p className="profile-settings__subtitle">
+        <div className="p-8 bg-linear-to-r from-indigo-600 to-purple-700 text-white">
+          <h1 className="text-4xl font-bold mb-2 m-0">Account Settings</h1>
+          <p className="text-lg opacity-90 m-0">
             Manage your profile information, preferences, and notification
             settings
           </p>
         </div>
 
         {/* Tabs */}
-        <div className="profile-settings__tabs">
+        <div className="flex border-b-2 border-slate-200 bg-slate-50 overflow-x-auto">
           <button
-            className={`tab ${activeTab === "account" ? "tab--active" : ""}`}
+            className={`flex-1 min-w-37.5 px-4 py-6 border-none bg-none cursor-pointer text-sm font-medium transition-all duration-300 flex items-center justify-center gap-3 border-b-4 border-b-transparent -mb-0.5 ${
+              activeTab === "account"
+                ? "text-indigo-600 border-b-indigo-600 bg-transparent"
+                : "text-slate-600 hover:text-slate-800 hover:bg-slate-100"
+            }`}
             onClick={() => setActiveTab("account")}
           >
             <svg
@@ -98,7 +103,11 @@ export default function ProfileSettingsPage() {
             Account Info
           </button>
           <button
-            className={`tab ${activeTab === "preferences" ? "tab--active" : ""}`}
+            className={`flex-1 min-w-37.5 px-4 py-6 border-none bg-none cursor-pointer text-sm font-medium transition-all duration-300 flex items-center justify-center gap-3 border-b-4 border-b-transparent -mb-0.5 ${
+              activeTab === "preferences"
+                ? "text-indigo-600 border-b-indigo-600 bg-transparent"
+                : "text-slate-600 hover:text-slate-800 hover:bg-slate-100"
+            }`}
             onClick={() => setActiveTab("preferences")}
           >
             <svg
@@ -114,7 +123,11 @@ export default function ProfileSettingsPage() {
             Service Preferences
           </button>
           <button
-            className={`tab ${activeTab === "notifications" ? "tab--active" : ""}`}
+            className={`flex-1 min-w-37.5 px-4 py-6 border-none bg-none cursor-pointer text-sm font-medium transition-all duration-300 flex items-center justify-center gap-3 border-b-4 border-b-transparent -mb-0.5 ${
+              activeTab === "notifications"
+                ? "text-indigo-600 border-b-indigo-600 bg-transparent"
+                : "text-slate-600 hover:text-slate-800 hover:bg-slate-100"
+            }`}
             onClick={() => setActiveTab("notifications")}
           >
             <svg
@@ -135,7 +148,11 @@ export default function ProfileSettingsPage() {
         {/* Save Message */}
         {saveMessage && (
           <div
-            className={`save-message ${saveMessage.includes("success") ? "save-message--success" : "save-message--error"}`}
+            className={`mx-6 my-6 p-4 rounded-lg flex items-center gap-3 font-medium ${
+              saveMessage.includes("success")
+                ? "bg-green-50 text-green-700 border border-green-300"
+                : "bg-red-50 text-red-700 border border-red-300"
+            }`}
           >
             <svg
               width="20"
@@ -153,18 +170,21 @@ export default function ProfileSettingsPage() {
 
         {/* Account Info Tab */}
         {activeTab === "account" && (
-          <div className="settings-section">
-            <h2 className="settings-section__title">Personal Information</h2>
+          <div className="p-8">
+            <h2 className="text-2xl font-semibold text-slate-900 mb-2">
+              Personal Information
+            </h2>
             <form
               onSubmit={handleSubmit(onSubmitProfile)}
-              className="settings-form"
+              className="flex flex-col gap-6"
             >
-              <div className="form-group">
-                <label className="form-label">Full Name</label>
+              <div className="flex flex-col gap-2">
+                <label className="font-semibold text-slate-900 text-sm">
+                  Full Name
+                </label>
                 <input
                   type="text"
-                  className="form-input"
-                  placeholder="Your full name"
+                  className="px-4 py-3 border-2 border-slate-200 rounded-md text-sm focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 transition-all duration-300"
                   {...register("name", {
                     required: "Name is required",
                     minLength: {
@@ -174,15 +194,19 @@ export default function ProfileSettingsPage() {
                   })}
                 />
                 {errors.name && (
-                  <span className="form-error">{errors.name.message}</span>
+                  <span className="text-red-600 text-xs">
+                    {errors.name.message}
+                  </span>
                 )}
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Email Address</label>
+              <div className="flex flex-col gap-2">
+                <label className="font-semibold text-slate-900 text-sm">
+                  Email Address
+                </label>
                 <input
                   type="email"
-                  className="form-input"
+                  className="px-4 py-3 border-2 border-slate-200 rounded-md text-sm focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 transition-all duration-300"
                   placeholder="your.email@example.com"
                   {...register("email", {
                     required: "Email is required",
@@ -193,15 +217,19 @@ export default function ProfileSettingsPage() {
                   })}
                 />
                 {errors.email && (
-                  <span className="form-error">{errors.email.message}</span>
+                  <span className="text-red-600 text-xs">
+                    {errors.email.message}
+                  </span>
                 )}
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Phone Number</label>
+              <div className="flex flex-col gap-2">
+                <label className="font-semibold text-slate-900 text-sm">
+                  Phone Number
+                </label>
                 <input
                   type="tel"
-                  className="form-input"
+                  className="px-4 py-3 border-2 border-slate-200 rounded-md text-sm focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 transition-all duration-300"
                   placeholder="+1 (555) 000-0000"
                   {...register("phone", {
                     pattern: {
@@ -212,15 +240,19 @@ export default function ProfileSettingsPage() {
                   })}
                 />
                 {errors.phone && (
-                  <span className="form-error">{errors.phone.message}</span>
+                  <span className="text-red-600 text-xs">
+                    {errors.phone.message}
+                  </span>
                 )}
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Location</label>
+              <div className="flex flex-col gap-2">
+                <label className="font-semibold text-slate-900 text-sm">
+                  Location
+                </label>
                 <input
                   type="text"
-                  className="form-input"
+                  className="px-4 py-3 border-2 border-slate-200 rounded-md text-sm focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 transition-all duration-300"
                   placeholder="City, State"
                   {...register("location", {
                     minLength: {
@@ -230,19 +262,24 @@ export default function ProfileSettingsPage() {
                   })}
                 />
                 {errors.location && (
-                  <span className="form-error">{errors.location.message}</span>
+                  <span className="text-red-600 text-xs">
+                    {errors.location.message}
+                  </span>
                 )}
               </div>
 
-              <div className="settings-actions">
+              <div className="flex gap-4 mt-8">
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className="btn btn--primary"
+                  className="px-6 py-3 border-none rounded-md font-semibold transition-all duration-300 text-sm cursor-pointer bg-gradient-to-r from-indigo-600 to-purple-700 text-white hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/20 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {isSaving ? "Saving..." : "Save Changes"}
                 </button>
-                <button type="button" className="btn btn--secondary">
+                <button
+                  type="button"
+                  className="px-6 py-3 border-none rounded-md font-semibold bg-slate-200 text-slate-900 cursor-pointer hover:bg-slate-300 transition-all duration-300"
+                >
                   Cancel
                 </button>
               </div>
@@ -252,11 +289,11 @@ export default function ProfileSettingsPage() {
 
         {/* Preferences Tab */}
         {activeTab === "preferences" && (
-          <div className="settings-section">
-            <h2 className="settings-section__title">
+          <div className="p-8">
+            <h2 className="text-2xl font-semibold text-slate-900 mb-2">
               Your Service Preferences
             </h2>
-            <p className="settings-section__description">
+            <p className="text-slate-600 mb-8 text-sm">
               Select the services you're most interested in. We'll show you
               relevant technicians and special offers based on your selections.
             </p>
@@ -269,8 +306,8 @@ export default function ProfileSettingsPage() {
               maxSelections={10}
             />
 
-            <div className="preferences-info">
-              <div className="info-card">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+              <div className="flex gap-4 p-4 bg-slate-50 rounded-lg border-l-4 border-indigo-600">
                 <svg
                   width="20"
                   height="20"
@@ -278,20 +315,23 @@ export default function ProfileSettingsPage() {
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
+                  className="text-indigo-600 shrink-0"
                 >
                   <circle cx="12" cy="12" r="10" />
                   <line x1="12" y1="16" x2="12" y2="12" />
                   <line x1="12" y1="8" x2="12.01" y2="8" />
                 </svg>
                 <div>
-                  <h4>Personalized Experience</h4>
-                  <p>
+                  <h4 className="m-0 mb-1 text-slate-900 text-sm font-semibold">
+                    Personalized Experience
+                  </h4>
+                  <p className="m-0 text-slate-600 text-xs">
                     Your preferences help us show you the most relevant
                     technicians and services.
                   </p>
                 </div>
               </div>
-              <div className="info-card">
+              <div className="flex gap-4 p-4 bg-slate-50 rounded-lg border-l-4 border-indigo-600">
                 <svg
                   width="20"
                   height="20"
@@ -299,13 +339,16 @@ export default function ProfileSettingsPage() {
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
+                  className="text-indigo-600 shrink-0"
                 >
                   <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
                   <path d="M12 6v6l4 2" />
                 </svg>
                 <div>
-                  <h4>Set Anytime</h4>
-                  <p>
+                  <h4 className="m-0 mb-1 text-slate-900 text-sm font-semibold">
+                    Set Anytime
+                  </h4>
+                  <p className="m-0 text-slate-600 text-xs">
                     You can update your preferences at any time from this
                     settings page.
                   </p>
@@ -313,11 +356,11 @@ export default function ProfileSettingsPage() {
               </div>
             </div>
 
-            <div className="settings-actions">
+            <div className="flex gap-4 mt-8">
               <button
                 onClick={handleSavePreferences}
                 disabled={isSaving}
-                className="btn btn--primary"
+                className="px-6 py-3 border-none rounded-md font-semibold bg-gradient-to-r from-indigo-600 to-purple-700 text-white cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/20 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 text-sm"
               >
                 {isSaving ? "Saving..." : "Save Preferences"}
               </button>
@@ -327,77 +370,86 @@ export default function ProfileSettingsPage() {
 
         {/* Notifications Tab */}
         {activeTab === "notifications" && (
-          <div className="settings-section">
-            <h2 className="settings-section__title">
+          <div className="p-8">
+            <h2 className="text-2xl font-semibold text-slate-900 mb-8">
               Notification Preferences
             </h2>
 
-            <div className="notification-group">
-              <div className="notification-item">
-                <div className="notification-content">
-                  <h4 className="notification-title">Email Notifications</h4>
-                  <p className="notification-desc">
+            <div className="flex flex-col gap-6">
+              <div className="flex items-center justify-between p-6 bg-slate-50 rounded-lg border border-slate-200">
+                <div>
+                  <h4 className="m-0 mb-1 font-semibold text-slate-900">
+                    Email Notifications
+                  </h4>
+                  <p className="m-0 text-slate-600 text-xs">
                     Receive booking updates, technician recommendations, and
                     special offers via email
                   </p>
                 </div>
-                <label className="toggle">
+                <label className="relative inline-flex w-12 h-7 bg-slate-300 rounded-full cursor-pointer transition-all duration-300">
                   <input
                     type="checkbox"
+                    hidden
                     checked={preferences.notificationEmail}
                     onChange={(e) =>
                       updateNotifications(e.target.checked, undefined)
                     }
                   />
-                  <span className="toggle-slider" />
+                  <span className="absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full transition-all duration-300 has-[input:checked]:bg-indigo-600 has-[input:checked]:translate-x-5 shadow-sm" />
                 </label>
               </div>
 
-              <div className="notification-item">
-                <div className="notification-content">
-                  <h4 className="notification-title">SMS Notifications</h4>
-                  <p className="notification-desc">
+              <div className="flex items-center justify-between p-6 bg-slate-50 rounded-lg border border-slate-200">
+                <div>
+                  <h4 className="m-0 mb-1 font-semibold text-slate-900">
+                    SMS Notifications
+                  </h4>
+                  <p className="m-0 text-slate-600 text-xs">
                     Get important booking updates and technician status via SMS
                   </p>
                 </div>
-                <label className="toggle">
+                <label className="relative inline-flex w-12 h-7 bg-slate-300 rounded-full cursor-pointer transition-all duration-300">
                   <input
                     type="checkbox"
+                    hidden
                     checked={preferences.notificationSMS}
                     onChange={(e) =>
                       updateNotifications(undefined, e.target.checked)
                     }
                   />
-                  <span className="toggle-slider" />
+                  <span className="absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full transition-all duration-300 has-[input:checked]:bg-indigo-600 has-[input:checked]:translate-x-5 shadow-sm" />
                 </label>
               </div>
 
-              <div className="notification-item">
-                <div className="notification-content">
-                  <h4 className="notification-title">Public Profile</h4>
-                  <p className="notification-desc">
+              <div className="flex items-center justify-between p-6 bg-slate-50 rounded-lg border border-slate-200">
+                <div>
+                  <h4 className="m-0 mb-1 font-semibold text-slate-900">
+                    Public Profile
+                  </h4>
+                  <p className="m-0 text-slate-600 text-xs">
                     Make your profile visible to technicians and allow them to
                     review your booking history
                   </p>
                 </div>
-                <label className="toggle">
+                <label className="relative inline-flex w-12 h-7 bg-slate-300 rounded-full cursor-pointer transition-all duration-300">
                   <input
                     type="checkbox"
+                    hidden
                     checked={preferences.publicProfile}
                     onChange={(e) => {
                       // Handle public profile toggle
                     }}
                   />
-                  <span className="toggle-slider" />
+                  <span className="absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full transition-all duration-300 has-[input:checked]:bg-indigo-600 has-[input:checked]:translate-x-5 shadow-sm" />
                 </label>
               </div>
             </div>
 
-            <div className="settings-actions">
+            <div className="flex gap-4 mt-8">
               <button
                 onClick={handleSavePreferences}
                 disabled={isSaving}
-                className="btn btn--primary"
+                className="px-6 py-3 border-none rounded-md font-semibold bg-gradient-to-r from-indigo-600 to-purple-700 text-white cursor-pointer hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/20 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 text-sm"
               >
                 {isSaving ? "Saving..." : "Save Notification Settings"}
               </button>
@@ -405,320 +457,6 @@ export default function ProfileSettingsPage() {
           </div>
         )}
       </div>
-
-      <style jsx>{`
-        .profile-settings {
-          min-height: 100vh;
-          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-          padding: 2rem;
-        }
-
-        .profile-settings__container {
-          max-width: 900px;
-          margin: 0 auto;
-          background: white;
-          border-radius: 12px;
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-          overflow: hidden;
-        }
-
-        .profile-settings__header {
-          padding: 2rem;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
-        }
-
-        .profile-settings__title {
-          font-size: 2rem;
-          font-weight: 700;
-          margin: 0 0 0.5rem 0;
-        }
-
-        .profile-settings__subtitle {
-          font-size: 1rem;
-          opacity: 0.9;
-          margin: 0;
-        }
-
-        .profile-settings__tabs {
-          display: flex;
-          border-bottom: 2px solid #e2e8f0;
-          background: #f7fafc;
-          overflow-x: auto;
-        }
-
-        .tab {
-          flex: 1;
-          min-width: 150px;
-          padding: 1.5rem 1rem;
-          border: none;
-          background: none;
-          cursor: pointer;
-          font-size: 0.95rem;
-          font-weight: 500;
-          color: #718096;
-          transition: all 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.75rem;
-          border-bottom: 3px solid transparent;
-          margin-bottom: -2px;
-        }
-
-        .tab:hover:not(.tab--active) {
-          color: #4a5568;
-          background: #edf2f7;
-        }
-
-        .tab--active {
-          color: #667eea;
-          border-bottom-color: #667eea;
-        }
-
-        .save-message {
-          margin: 1.5rem;
-          padding: 1rem;
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          font-weight: 500;
-        }
-
-        .save-message--success {
-          background: #f0fdf4;
-          color: #166534;
-          border: 1px solid #86efac;
-        }
-
-        .save-message--error {
-          background: #fef2f2;
-          color: #991b1b;
-          border: 1px solid #fca5a5;
-        }
-
-        .settings-section {
-          padding: 2rem;
-        }
-
-        .settings-section__title {
-          font-size: 1.5rem;
-          font-weight: 600;
-          color: #2d3748;
-          margin-bottom: 0.5rem;
-        }
-
-        .settings-section__description {
-          color: #718096;
-          margin-bottom: 2rem;
-          font-size: 0.95rem;
-        }
-
-        .settings-form {
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
-        .form-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-        }
-
-        .form-label {
-          font-weight: 600;
-          color: #2d3748;
-          font-size: 0.95rem;
-        }
-
-        .form-input {
-          padding: 0.75rem 1rem;
-          border: 2px solid #e2e8f0;
-          border-radius: 6px;
-          font-size: 0.95rem;
-          transition: all 0.3s ease;
-        }
-
-        .form-input:focus {
-          outline: none;
-          border-color: #667eea;
-          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .settings-actions {
-          display: flex;
-          gap: 1rem;
-          margin-top: 2rem;
-        }
-
-        .btn {
-          padding: 0.75rem 1.5rem;
-          border: none;
-          border-radius: 6px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          font-size: 0.95rem;
-        }
-
-        .btn--primary {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
-        }
-
-        .btn--primary:hover:not(:disabled) {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
-        }
-
-        .btn--primary:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-
-        .btn--secondary {
-          background: #e2e8f0;
-          color: #2d3748;
-        }
-
-        .btn--secondary:hover {
-          background: #cbd5e0;
-        }
-
-        .preferences-info {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 1.5rem;
-          margin-top: 2rem;
-        }
-
-        .info-card {
-          display: flex;
-          gap: 1rem;
-          padding: 1rem;
-          background: #f7fafc;
-          border-radius: 8px;
-          border-left: 4px solid #667eea;
-        }
-
-        .info-card svg {
-          color: #667eea;
-          flex-shrink: 0;
-        }
-
-        .info-card h4 {
-          margin: 0 0 0.25rem 0;
-          color: #2d3748;
-          font-size: 0.95rem;
-        }
-
-        .info-card p {
-          margin: 0;
-          color: #718096;
-          font-size: 0.85rem;
-        }
-
-        .notification-group {
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
-        .notification-item {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 1.5rem;
-          background: #f7fafc;
-          border-radius: 8px;
-          border: 1px solid #e2e8f0;
-        }
-
-        .notification-content h4 {
-          margin: 0 0 0.25rem 0;
-          color: #2d3748;
-          font-size: 0.95rem;
-        }
-
-        .notification-title {
-          margin: 0;
-          font-weight: 600;
-          color: #2d3748;
-        }
-
-        .notification-desc {
-          margin: 0.25rem 0 0 0;
-          color: #718096;
-          font-size: 0.85rem;
-        }
-
-        .toggle {
-          position: relative;
-          display: inline-flex;
-          width: 50px;
-          height: 28px;
-          background: #cbd5e0;
-          border-radius: 14px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-
-        .toggle input {
-          display: none;
-        }
-
-        .toggle input:checked + .toggle-slider {
-          background: #667eea;
-          transform: translateX(22px);
-        }
-
-        .toggle-slider {
-          position: absolute;
-          top: 3px;
-          left: 3px;
-          width: 22px;
-          height: 22px;
-          background: white;
-          border-radius: 50%;
-          transition: all 0.3s ease;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (max-width: 768px) {
-          .profile-settings {
-            padding: 1rem;
-          }
-
-          .profile-settings__header {
-            padding: 1.5rem;
-          }
-
-          .profile-settings__title {
-            font-size: 1.5rem;
-          }
-
-          .settings-section {
-            padding: 1.5rem;
-          }
-
-          .profile-settings__tabs {
-            gap: 0;
-          }
-
-          .tab {
-            min-width: auto;
-            font-size: 0.85rem;
-          }
-
-          .notification-item {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1rem;
-          }
-        }
-      `}</style>
     </div>
   );
 }
